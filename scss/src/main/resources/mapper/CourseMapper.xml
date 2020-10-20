@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.flooog.scss.dao.CourseMapper">
+    <resultMap id="BaseResult" type="top.flooog.scss.entity.Course">
+        <id column="id" property="id"/>
+        <result column="c_id" property="cId"/>
+        <result column="c_name" property="cName"/>
+        <result column="c_picture" property="cPicture"/>
+        <result column="scoure" property="scoure"/>
+    </resultMap>
+
+    <!--插入数据-->
+    <insert id="courseInsert" parameterType="top.flooog.scss.entity.Course">
+        insert into course(id,c_id,c_name,c_pricture,scoure,is_deleted,create_time,update_time)
+        values (#{id},#{cId},#{cName},#{cPricture},#{scoure},#{deleted },#{creatTime},#{updateTime})
+    </insert>
+
+    <!--查询所有课程-->
+    <select id="findAllCourse" resultMap="BaseResult">
+        select id,c_id,c_name,c_picture,scoure
+        from course
+        where is_deleted = 0
+    </select>
+
+    <!--通过课程号查询课程-->
+    <select id="findCourse" parameterType="java.lang.String" resultMap="BaseResult">
+        select id,c_id,c_name,c_picture,scoure
+        from course
+        where is_deleted = 0 and  c_id = #{cid}
+    </select>
+</mapper>

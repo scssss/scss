@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.flooog.scss.dao.SysMenuMapper">
+    <resultMap id="BaseResult" type="top.flooog.scss.entity.SysMenu">
+        <id column="id" property="id"/>
+        <result column="menu_id" property="menuId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="url" property="url"/>
+        <result column="perms" property="perms"/>
+        <result column="type" property="type"/>
+        <result column="icon" property="icon"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="role" property="role"/>
+    </resultMap>
+    <!-- 根据角色查出相应的菜单-->
+    <select id="findAllmenu" parameterType="java.lang.Integer" resultMap="BaseResult">
+        select id,menu_id,parent_id,menu_name,url,perms,type,icon,order_num,role
+        from sys_menu
+        where role = #{role}
+    </select>
+
+    <!-- 根据用户名查出相应的权限-->
+    <select id="findByUser" parameterType="java.lang.String" resultMap="BaseResult">
+       select id,menu_id,parent_id,menu_name,url,perms,type,icon,order_num,role
+        from sys_menu
+        where role IN (SELECT role from sys_user WHERE user_id = #{userName})
+    </select>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.flooog.scss.dao.SelectCourseMapper">
+    <resultMap id="BaseResult" type="top.flooog.scss.entity.SelectCourse">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="s_name" property="sName"/>
+        <result column="c_id" property="cName"/>
+        <result column="t_name" property="tName"/>
+    </resultMap>
+
+    <!-- 插入选课-->
+    <insert id="selectCourse" parameterType="top.flooog.scss.entity.SelectCourse">
+        insert into select_course (id,user_id,c_id,c_name,t_name,create_time,update_time)
+        values (#{id},#{userId},#{cId},#{cName},#{tName},#{createTime},#{updateTime})
+    </insert>
+    <!-- 根据学号查课-->
+    <select id="findMyCourse" parameterType="java.lang.String" resultMap="BaseResult">
+        select id,user_id,s_name,c_id,t_name
+        from select_course
+        where user_id = #{sid}
+    </select>
+    <!-- 根据课程号查课-->
+    <select id="findMyTea" parameterType="java.lang.String" resultMap="BaseResult">
+        select id,user_id,s_name,c_id,t_name
+        from select_course
+        where user_id = #{cid}
+    </select>
+</mapper>

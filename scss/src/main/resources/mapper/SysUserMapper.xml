@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.flooog.scss.dao.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="top.flooog.scss.entity.SysUser">
+        <id column="id" property="id"/>
+        <result column="user_id"  property="userId"/>
+        <result column="name"  property="name"/>
+        <result column="avatar"  property="avatar"/>
+        <result column="password" property="password"/>
+        <result column="authority"  property="authority"/>
+        <result column="status"  property="status"/>
+        <result column="salt" property="salt"/>
+        <result column="mobile"  property="mobile"/>
+        <result column="create_time"  property="createTime"/>
+        <result column="update_time"  property="updateTime"/>
+    </resultMap>
+
+    <resultMap id="LoginMap" type="java.util.HashMap">
+        <result column="authority" property="authority"/>
+        <result column="status"    property="status"/>
+    </resultMap>
+
+    <!--添加数据-->
+    <insert id="sysUserInsert" parameterType="top.flooog.scss.entity.SysUser">
+        insert into sys_user (id,user_id,name,avatar,
+            password,authority,status,salt,mobile,
+            is_deleted,create_time,update_time)
+        values (#{id},#{userId},#{name},#{avatar},#{password},#{authority},#{status},
+            #{salt},#{mobile},#{deleted},#{createTime},#{updateTime})
+    </insert>
+
+    <!--删除数据-->
+    <update id="deletedUpdate" parameterType="java.lang.Integer">
+        update sys_user set is_deleted = 1 where id = #{id}
+    </update>
+
+    <!-- 登录验证-->
+    <select id="login" parameterType="map" resultMap="LoginMap">
+        select authority, status from sys_user where user_id = #{user_id} and password = #{password} and is_deleted = 0
+    </select>
+
+    <!--通过学号查询学生的信息-->
+    <select id="stuFindAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select user_id, name, avatar, mobile,
+        from sys_user
+        where user_id = #{user_id} and is_deleted = 0
+    </select>
+
+    <!-- 通过号码查询全部用户信息-->
+    <select id="findByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select id,user_id,name,avatar,password,authority,status,salt,mobile
+        from sys_user
+        where user_id = #{userid}
+    </select>
+</mapper>

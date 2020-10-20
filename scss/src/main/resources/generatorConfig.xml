@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <classPathEntry  location="D:\maven\repo\mysql\mysql-connector-java\5.1.19\mysql-connector-java-5.1.19.jar"/>
+    <context id="mysql" defaultModelType="hierarchical" targetRuntime="MyBatis3Simple">
+        <!-- 生成mysql带有分页的sql的插件  这个可以自己写，-->
+        <!-- 自定义的注释规则，继承 DefaultCommentGenerator 重写 一些方法 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/scss?serverTimezone=UTC"
+                        userId="root"
+                        password="123456">
+        </jdbcConnection>
+        <!--生成entity类存放位置-->
+        <javaModelGenerator targetPackage="top.flooog.scss.entity" targetProject="src\main\java" >
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+       <!-- &lt;!&ndash;生成映射文件存放位置&ndash;&gt;
+        <sqlMapGenerator targetPackage="top.flooog.scss.mapper" targetProject="src\main\java" >
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>-->
+       <!-- &lt;!&ndash;生成Dao类存放位置&ndash;&gt;
+        <javaClientGenerator  targetPackage="top.flooog.scss.dao"
+                              targetProject="src\main\java" type="XMLMAPPER">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>-->
+        <table tableName="course" domainObjectName="Course">
+        </table>
+
+        <table tableName="select_course" domainObjectName="SelectCourse">
+        </table>
+
+        <table tableName="sys_user" domainObjectName="SysUser">
+        </table>
+
+        <table tableName="tea_course" domainObjectName="TeaCourse">
+        </table>
+
+
+    </context>
+</generatorConfiguration>
