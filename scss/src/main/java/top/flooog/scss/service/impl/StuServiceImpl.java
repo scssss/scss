@@ -10,6 +10,8 @@ import top.flooog.scss.dao.SelectCourseMapper;
 import top.flooog.scss.entity.SelectCourse;
 import top.flooog.scss.service.StuService;
 
+import java.util.List;
+
 @Service("stuService")
 public class StuServiceImpl implements StuService {
 
@@ -23,6 +25,7 @@ public class StuServiceImpl implements StuService {
      */
     @Override
     public PageResult findCourse(PageRequest pageRequest) {
+
         return MybaitsPageHelper.findPage(pageRequest,courseMapper,"findAllCourse");
     }
 
@@ -32,12 +35,20 @@ public class StuServiceImpl implements StuService {
      * @return
      */
     @Override
-    public boolean selectCourse(SelectCourse selectCourse) {
+    public String selectCourse(SelectCourse selectCourse) {
+        List<SelectCourse> list = selectCourseMapper.findMyCourse(selectCourse.getUserId());
+        // 判断课程是否已经选择
+        for (SelectCourse s: list) {
+           if (selectCourse.getcId().equals(s.getcId())){
+               return "课程已经选择";
+           }
+        }
+        selectCourse.settName(selectCourseMapper.findTeaName(selectCourse.getcId()));
         int i = selectCourseMapper.selectCourse(selectCourse);
         if (i > 0){
-            return true;
+            return "选课成功！";
         }
-        return false;
+        return "选课失败！";
     }
 
     /**
@@ -47,6 +58,8 @@ public class StuServiceImpl implements StuService {
      */
     @Override
     public PageResult findHasCourse(PageRequest pageRequest) {
-        return MybaitsPageHelper.findPage(pageRequest,selectCourseMapper,"findMyCourse");
+        String sid = (String)pageRequest.getParam("sid");
+        System.out.println(sid);
+        return MybaitsPageHelper.findPage(pageRequest,selectCourseMapper,"findMyCourse",sid);
     }
 }
