@@ -8,6 +8,9 @@ import top.flooog.scss.entity.SelectCourse;
 import top.flooog.scss.service.StuService;
 import top.flooog.scss.service.SysMenuService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/stu")
 public class StuController {
@@ -17,12 +20,21 @@ public class StuController {
     @Autowired
     private SysMenuService sysMenuService;
 
+    /**
+     * 查询所有可选课程
+     * @param pageRequest
+     * @return
+     */
     @PreAuthorize("hasAnyAuthority('sys:stu:find')")
     @GetMapping(value = "/findCourse")
     public HttpResult finCourse( PageRequest pageRequest){
         return HttpResult.ok(stuService.findCourse(pageRequest));
     }
 
+    /**
+     * 查询学生功能菜单
+     * @return
+     */
     @PreAuthorize("hasAnyAuthority('sys:stu:menu')")
     @GetMapping(value = "/menu")
     public HttpResult findmenu(){
@@ -35,11 +47,8 @@ public class StuController {
     @PreAuthorize("hasAnyAuthority('sys:stu:selectcourse')")
     @PostMapping(value="/selectcourse")
     public HttpResult selectCourse(@RequestBody SelectCourse selectCourse){
-        if (stuService.selectCourse(selectCourse)){
-            return HttpResult.ok("选课成功");
-        }
-        return HttpResult.error("选课失败");
 
+            return HttpResult.ok(stuService.selectCourse(selectCourse));
     }
 
     /**
@@ -49,5 +58,14 @@ public class StuController {
     @PostMapping(value = "/hasselect")
     public HttpResult hasselect(@RequestBody PageRequest pageRequest){
         return HttpResult.ok(stuService.findHasCourse(pageRequest));
+    }
+    /**
+     * 学生退选课程
+     */
+    @PreAuthorize("hasAnyAuthority('sys:stu:delcourse')")
+    @PostMapping(value = "/delcourse")
+    public HttpResult delcourse(@RequestBody Map<String,String> id){
+        String id1 = id.get("id");
+        return stuService.delCourse(id1);
     }
 }

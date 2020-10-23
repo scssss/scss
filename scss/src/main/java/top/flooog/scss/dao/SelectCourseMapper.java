@@ -7,10 +7,14 @@ import java.util.List;
 
 @Mapper
 public interface SelectCourseMapper {
-    //插入选课
+    // 插入选课
     int selectCourse(SelectCourse selectCourse);
-    //根据学号查询选课
+    // 根据学号查询选课
     List<SelectCourse> findMyCourse(String sid);
-    //根据课程号查询选课
+    // 根据课程号查询选课
     List<SelectCourse> findMyTea(String cid);
+    // 根据课程号查询老师的名字
+    String findTeaName(String cid);
+    // 学生退课
+    int delCourse(String id);
 }

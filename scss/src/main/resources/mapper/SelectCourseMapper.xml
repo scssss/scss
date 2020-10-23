@@ -4,8 +4,8 @@
     <resultMap id="BaseResult" type="top.flooog.scss.entity.SelectCourse">
         <id column="id" property="id"/>
         <result column="user_id" property="userId"/>
-        <result column="s_name" property="sName"/>
-        <result column="c_id" property="cName"/>
+        <result column="c_name" property="cName"/>
+        <result column="c_id" property="cId"/>
         <result column="t_name" property="tName"/>
     </resultMap>
 
@@ -16,14 +16,24 @@
     </insert>
     <!-- 根据学号查课-->
     <select id="findMyCourse" parameterType="java.lang.String" resultMap="BaseResult">
-        select id,user_id,s_name,c_id,t_name
+        select id,user_id,c_name,c_id,t_name
         from select_course
         where user_id = #{sid}
     </select>
-    <!-- 根据课程号查课-->
+    <!-- 根据课程号查寻选课课-->
     <select id="findMyTea" parameterType="java.lang.String" resultMap="BaseResult">
-        select id,user_id,s_name,c_id,t_name
+        select id,user_id,c_name,c_id,t_name
         from select_course
         where user_id = #{cid}
     </select>
+
+    <!--根据课程号查询老师的姓名-->
+    <select id="findTeaName" parameterType="java.lang.String" resultType="java.lang.String">
+        select name from sys_user where user_id
+        in (select user_id from tea_course where c_id = #{cid})
+    </select>
+    <!--学生选课删除-->
+    <delete id="delCourse" parameterType="java.lang.String">
+        delete from select_course where id = #{id}
+    </delete>
 </mapper>
