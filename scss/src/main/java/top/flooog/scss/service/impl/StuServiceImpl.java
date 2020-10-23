@@ -2,6 +2,7 @@ package top.flooog.scss.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.flooog.scss.core.HttpResult;
 import top.flooog.scss.core.MybaitsPageHelper;
 import top.flooog.scss.core.PageRequest;
 import top.flooog.scss.core.PageResult;
@@ -59,7 +60,19 @@ public class StuServiceImpl implements StuService {
     @Override
     public PageResult findHasCourse(PageRequest pageRequest) {
         String sid = (String)pageRequest.getParam("sid");
-        System.out.println(sid);
         return MybaitsPageHelper.findPage(pageRequest,selectCourseMapper,"findMyCourse",sid);
     }
+    /**
+     *学生选课退选
+     */
+    @Override
+    public HttpResult delCourse(String id) {
+        int i = selectCourseMapper.delCourse(id);
+        if(i == 0){
+            return HttpResult.error(201,"课程退选失败！");
+        }
+        return HttpResult.error(200,"课程退选成功！");
+    }
+
+
 }

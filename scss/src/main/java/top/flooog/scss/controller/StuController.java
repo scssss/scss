@@ -8,6 +8,9 @@ import top.flooog.scss.entity.SelectCourse;
 import top.flooog.scss.service.StuService;
 import top.flooog.scss.service.SysMenuService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/stu")
 public class StuController {
@@ -55,5 +58,14 @@ public class StuController {
     @PostMapping(value = "/hasselect")
     public HttpResult hasselect(@RequestBody PageRequest pageRequest){
         return HttpResult.ok(stuService.findHasCourse(pageRequest));
+    }
+    /**
+     * 学生退选课程
+     */
+    @PreAuthorize("hasAnyAuthority('sys:stu:delcourse')")
+    @PostMapping(value = "/delcourse")
+    public HttpResult delcourse(@RequestBody Map<String,String> id){
+        String id1 = id.get("id");
+        return stuService.delCourse(id1);
     }
 }

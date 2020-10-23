@@ -15,4 +15,6 @@ public interface SelectCourseMapper {
     List<SelectCourse> findMyTea(String cid);
     // 根据课程号查询老师的名字
     String findTeaName(String cid);
+    // 学生退课
+    int delCourse(String id);
 }
